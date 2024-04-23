@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+
+<!-- ======= Head ======= -->
+<div th:replace="~{common/shoulder_fragment::head(title = 'SNSサイト - メンバー登録')}"></div>
+
+<body>
+
+  <main>
+    <div class="container">
+
+      <section class="section register min-vh-100 d-flex flex-column align-items-center justify-content-center py-4">
+        <div class="container">
+          <div class="row justify-content-center">
+            <div class="col-lg-4 col-md-6 d-flex flex-column align-items-center justify-content-center">
+
+              <div class="card mb-3">
+
+                <div class="card-body">
+
+                  <div class="pt-4 pb-2">
+                    <h5 class="card-title text-center pb-0 fs-4" th:text="${isModify} ? 'メンバーを編集します。' : 'メンバーを登録します。'">メンバーを登録します。</h5>
+                    <p class="text-center small">個人情報を入力してメンバーを登録してください。</p>
+                  </div>
+
+                  <div th:if="${validationErrors != null}" class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <div th:each="error : ${validationErrors.getAllErrors()}">
+                      <i class="bi bi-exclamation-octagon me-1"></i>
+                      <span th:text="${error.getDefaultMessage()}">エラーメッセージ</span>
+                    </div>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                  </div>
+
+                  <form class="row g-3 needs-validation" method="post" novalidate th:action="@{/member/regist/{id}(id=${membersId})}" th:object="${requestMember}">
+                    <div class="col-12">
+                      <label for="yourName" class="form-label">お名前</label>
+                      <input type="text" name="name" class="form-control" id="yourName" maxlength="32" required th:field="*{name}">
+                      <div class="invalid-feedback">お名前を入力してください。</div>
+                    </div>
+
+                    <div class="col-12">
+                      <label for="yourEmail" class="form-label">メールアドレス</label>
+                      <input type="email" name="emailAddress" class="form-control" id="yourEmail" maxlength="256" required th:field="*{emailAddress}">
+                      <div class="invalid-feedback">有効なメールアドレスを入力してください。</div>
+                    </div>
+
+                    <p />
+
+                    <div class="col-12">
+                      <button class="btn btn-primary w-100" type="submit" th:text="${isModify} ? 'メンバーを編集する' : 'メンバーを登録する'">メンバーを登録する</button>
+                    </div>
+                    <div class="col-12">
+                      <p class="small mb-0"><a href="/">メンバー一覧へ</a></p>
+                    </div>
+                  </form>
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </section>
+
+    </div>
+  </main><!-- End #main -->
+
+  <!-- ======= Footer ======= -->
+  <div th:replace="~{common/shoulder_fragment::footer}"></div>
+
+</body>
+
+</html>
