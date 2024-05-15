@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.context.Context;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -39,6 +41,24 @@ public class MemberApiController {
 	@Autowired
 	private MembersService membersService;
 
+	@Autowired
+	private TemplateEngine templateEngine;
+
+	/**
+	 * テンプレートを読み込んで文字列として返すサンプル。
+	 * @return
+	 */
+	@GetMapping(value = "/test")
+	public Response test() {
+		Context context = new Context();
+		context.setVariable("message", "Hello, Thymeleaf!");
+
+		// テンプレートを文字列としてレンダリング
+		String htmlContent = templateEngine.process("template", context);
+		log.info(htmlContent);
+
+		return null;
+	}
 
 	/**
 	 * メンバーを取得する。
